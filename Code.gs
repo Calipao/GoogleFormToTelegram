@@ -1,7 +1,7 @@
 var token = "telegrambottokenhere";
 var telegramUrl = "https://api.telegram.org/bot" + token;
 var webAppUrl = "https://script.google.com/macros/s/appidhere/exec";
-var groupName = "@AriReporterTest1";
+var groupName = "@TestGroup1";
 var formID = "formlinkid";
 
 function getMe() {
