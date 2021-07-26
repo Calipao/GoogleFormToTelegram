@@ -10,16 +10,30 @@ function getMe() {
   Logger.log(response.getContentText());
 }
 
+function getUpdates() {
+  var url = telegramUrl + "/getUpdates";
+  var response = UrlFetchApp.fetch(url);
+  Logger.log(response.getContentText());
+}
+
 function setWebhook() {
   var url = telegramUrl + "/setWebhook?url=" + webAppUrl;
   var response = UrlFetchApp.fetch(url);
   Logger.log(response.getContentText());
 }
 
+function deleteWebhook() {
+  var url = telegramUrl + "/deleteWebhook";
+  var response = UrlFetchApp.fetch(url);
+  Logger.log(response.getContentText());
+}
+
 function sendMessage(msg) {
   var chatId = "chat_id=" + groupName;
-  var messageBody = "text=" + msg;
+  msg = encodeURIComponent(msg);
 
+  var messageBody = "text=" + msg + "";
+  Logger.log(messageBody);
   var url = telegramUrl + "/sendMessage?" + chatId + "&" + messageBody;
   var response = UrlFetchApp.fetch(url);
   Logger.log(response.getContentText());
@@ -34,7 +48,7 @@ function responseToString(response) {
     Logger.log('Response to the question "%s" was "%s"',
         itemResponse.getItem().getTitle(),
         itemResponse.getResponse());
-    result = result + itemResponse.getItem().getTitle() + ": " + itemResponse.getResponse() + "%0A";
+    result = result + itemResponse.getItem().getTitle() + ": " + itemResponse.getResponse() + "\n";
   }
 
   Logger.log(result);
@@ -42,9 +56,11 @@ function responseToString(response) {
 }
 
 function onFormSubmit(e) {
-  getMe();
+  //getMe();
   setWebhook();
   
   var message = responseToString(e.response);
   sendMessage(message);
+
+  deleteWebhook();
 }
